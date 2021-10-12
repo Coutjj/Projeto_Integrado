@@ -13,4 +13,8 @@ informações como: nível atual de água e se a bomba está abastecendo ou não
 
 /stop: finaliza o processo de monitoramento.
 
+# Documentação
+
+Um vídeo demonstrativo pode ser encontrado em: https://youtu.be/0IojYXJ8LzY
+
 A documentação completa do projeto pode ser encontrada através do Relatório em PDF.
