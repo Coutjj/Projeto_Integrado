@@ -26,9 +26,15 @@ sensor4 = SmoothedInputDevice(26, pull_up=False, threshold=0.2, sample_wait=0.4,
 sensor4._queue.start()
 
 
-def hello(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text(f'Hello {update.effective_user.first_name}')
-
+def help(update: Update, context: CallbackContext) -> None:
+    message = ( 'Objetivo:\n'
+                'O objetivo deste bot eh auxiliar no processo de monitoramento de uma cisterna.\n'
+                'Comandos principais:\n'
+                '/status: estado atual da cisterna.\n'
+                '/start: inicia o processo de monitoramento.\n'
+                '/stop: encerra o processo de monitoramento.'
+            )
+    sendMessage(message)
 
 def status(update: Update, context: CallbackContext) -> None:
     
@@ -111,17 +117,11 @@ def sendMessage(message):
 
 updater = Updater(telegram_token)
 
-updater.dispatcher.add_handler(CommandHandler('hello', hello))
+updater.dispatcher.add_handler(CommandHandler('help', help))
 updater.dispatcher.add_handler(CommandHandler('status', status))
 updater.dispatcher.add_handler(CommandHandler('start', start))
 updater.dispatcher.add_handler(CommandHandler('stop', stop))
 
-
-# sensor1.when_activated = lambda : sendMessage("Sensor 1 ativado")
-# sensor2.when_activated = lambda : sendMessage("Sensor 2 ativado")
-# sensor3.when_activated = lambda : sendMessage("Sensor 3 ativado")
-# sensor4.when_activated = lambda : sendMessage("Sensor de presenca de agua ativado")
-# sensor4.when_deactivated = lambda : sendMessage("Sensor de presenca de agua desativado")
 
 sensor1.when_activated = lambda : status(Update, CallbackContext)
 sensor1.when_deactivated = lambda: status(Update, CallbackContext)
@@ -132,8 +132,8 @@ sensor2.when_deactivated = lambda : status(Update, CallbackContext)
 sensor3.when_activated = lambda : status(Update, CallbackContext)
 sensor3.when_deactivated = lambda : status(Update, CallbackContext)
 
-sensor4.when_activated = lambda : sendMessage("Sensor de presenca de agua ativado")
-sensor4.when_deactivated = lambda : sendMessage("Sensor de presenca de agua desativado")
+sensor4.when_activated = lambda : sendMessage("Entrada de agua detectada.")
+sensor4.when_deactivated = lambda : sendMessage("Entrada de agua nao detectada.")
 
 updater.start_polling()
 updater.idle()
